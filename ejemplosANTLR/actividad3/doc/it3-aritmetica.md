@@ -72,14 +72,26 @@ Tu suite debe cubrir:
 
 ## Reflexión (llenar después de terminar esta iteración)
 
+Para esta iteración se usó Codex con el modelo GPT-5.5 en su configuración default.
+
 **¿Qué resultado da `2 + 3 × 4` en tu compilador? ¿Es el que esperabas? ¿Cómo lo verificaste?**
 
-> _
+> Da `14`, que sí era lo esperado. El compilador entiende que la multiplicación
+> tiene más prioridad que la suma, entonces primero hace `3 × 4`, que da `12`,
+> y después suma el `2`. Lo verifiqué con un programa de prueba que incluía
+> `print 2 + 3 × 4` y revisando que el código generado siguiera ese orden.
 
 **En la división entera, ¿qué pasa con el residuo? ¿Dónde queda? ¿Se pierde?**
 
-> _
+> En una división como `10 ÷ 3`, el compilador se queda con la parte entera, o
+> sea `3`. El residuo sería `1`, pero no se imprime ni se guarda como resultado
+> principal. En MIPS ese residuo queda en un lugar especial, pero como RaraLang
+> está usando división entera, el compilador solo toma el cociente.
 
 **Explica con tus palabras por qué el orden en que se sacan los registros de la pila importa para la resta.**
 
-> _
+> Importa porque restar no es igual en ambos sentidos. No es lo mismo `10 - 3`
+> que `3 - 10`. Cuando el compilador evalúa una expresión, va guardando los
+> valores temporalmente en una pila. El último valor que entra es el primero que
+> sale, entonces hay que tener cuidado para no invertir los operandos. Si la
+> expresión dice `x - y`, el compilador debe respetar ese orden.

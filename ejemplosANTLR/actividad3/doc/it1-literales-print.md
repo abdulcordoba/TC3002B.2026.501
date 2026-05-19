@@ -74,14 +74,27 @@ Ajusta según lo que ya tengas. Úsalo como punto de partida, no copiar/pegar ci
 
 ## Reflexión (llenar después de terminar esta iteración)
 
+Para esta iteración se usó Codex con el modelo GPT-5.5 en su configuración default.
+
 **¿Qué decidió el modelo sobre cómo guardar una cadena en memoria?**
 
-> _
+> Decidió guardar cada texto en una zona especial del programa llamada `.data`.
+> A cada cadena le pone un nombre interno, por ejemplo `str_0`, y la guarda con
+> `.asciiz`, que significa que el texto queda terminado correctamente para que
+> QtSPIM sepa dónde acaba. Después, cuando el programa llega al `print`, no carga
+> el texto completo, sino la dirección donde quedó guardado, y usa la syscall 4
+> para imprimirlo.
 
 **`[FF:16]` y `255` deben imprimir lo mismo. ¿Lo hacen? ¿Por qué?**
 
-> _
+> Sí, los dos terminan imprimiendo `255`. Aunque `[FF:16]` está escrito en
+> hexadecimal, Python lo convierte antes de generar el MIPS usando `int("FF", 16)`.
+> Después de esa conversión, el compilador ya no ve diferencia entre escribir
+> `[FF:16]` o escribir directamente `255`.
 
 **¿Qué pasaría si escribes `[29:2]`? (el dígito 9 no existe en base 2 XD) ¿Lo probaste?**
 
-> _
+> En ese caso el texto puede pasar la lectura inicial, pero falla cuando Python
+> intenta convertirlo con `int("29", 2)`, porque en base 2 solo existen `0` y `1`.
+> Entonces el compilador marca un error antes de generar un programa MIPS válido.
+> Sí se probó ese comportamiento de forma aislada al revisar la conversión.

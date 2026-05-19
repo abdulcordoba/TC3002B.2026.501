@@ -1,0 +1,2 @@
+# Caso trampa: debe fallar al compilar porque el divisor constante es cero
+print 10 ÷ 0
