@@ -1,0 +1,3 @@
+# Iteración 2: Asignar una variable e imprimirla
+x <-- 42
+print x

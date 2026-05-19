@@ -1,3 +1,4 @@
+
 ---
 iteracion: 2
 tema: Variables enteras y asignación
@@ -59,12 +60,18 @@ sin haberla asignado. ¿Qué hace tu compilador? ¿Debería ser un error?
 
 **¿Cómo decidió el modelo reservar espacio para la variable? ¿Dónde queda en el archivo `.asm`?**
 
-> _
+> El compilador crea una etiqueta `var_nombre` en la sección `.data` con `.word 0` cuando ve una variable por primera vez en una asignación. Queda al inicio del archivo `.asm`, antes de la sección `.text`. Por ejemplo, `x <-- 10` genera `var_x: .word 0` en `.data`.
 
-**Prueba b <-- 5 ¿Qué se genera, qué hace QtSpim? 
+**Prueba b <-- 5 ¿Qué se genera, qué hace QtSpim?**
 
-> _
+> Genera en `.data`: `var_b: .word 0`, y en `.text`: `li $t0, 5` (cargar 5 en temporal), seguido de `sw $t0, var_b` (store word en la dirección). QtSPIM reserva 4 bytes en memoria para `var_b` y guarda el valor 5 ahí.
 
-**¿Qué pasa si asignas una variable dos veces? 
+**¿Qué pasa si asignas una variable dos veces?**
 
-> _
+> El compilador no reserva un nuevo espacio. Solo genera dos instrucciones `sw` a la misma etiqueta. El primer `sw` guarda el valor inicial, el segundo sobrescribe la memoria. La variable sigue usando la misma etiqueta `var_nombre`.
+
+---
+
+**Herramientas utilizadas:**
+- Claude Code (IDE CLI de Anthropic)
+- Modelo: Claude Haiku 4.5 (claude-haiku-4-5-20251001)

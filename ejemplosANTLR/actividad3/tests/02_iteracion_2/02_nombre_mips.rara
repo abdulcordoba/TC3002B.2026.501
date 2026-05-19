@@ -1,0 +1,7 @@
+# Iteración 2: Variables con nombres que son instrucciones MIPS
+add <-- 100
+sub <-- 200
+div <-- 300
+print add
+print sub
+print div

@@ -1,6 +1,6 @@
-# Generated from RaraLang.g4 by ANTLR 4.13.2
+# Generated from RaraLang.g4 by ANTLR 4.12.0
 from antlr4 import *
-if "." in __name__:
+if __name__ is not None and "." in __name__:
     from .RaraLangParser import RaraLangParser
 else:
     from RaraLangParser import RaraLangParser
