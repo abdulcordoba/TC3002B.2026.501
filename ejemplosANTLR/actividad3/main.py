@@ -35,5 +35,5 @@ def run(path: str) -> None:
 if __name__ == "__main__":
     args = sys.argv[1:]
 
-    source = args[0] if args else "tests/01_int_literal.rara"
+    source = args[0] if args else "tests/01_iteracion_1/01_01_int_literal.rara"
     run(source)
