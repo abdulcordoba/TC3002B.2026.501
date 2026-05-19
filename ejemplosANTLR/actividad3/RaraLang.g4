@@ -18,7 +18,11 @@ expr
     : '(' expr ')'         # ParenExpr
     | literal              # LiteralExpr
     | ID                   # VarExpr
+    | NEG expr             # NegExpr
     | expr (MUL | DIV) expr # MulDivExpr
+    | expr DOUBLE_PLUS expr # DoublePlusExpr
+    | expr MOD expr        # ModExpr
+    | expr AVG expr        # AvgExpr
     | expr (PLUS | MINUS) expr # AddSubExpr
     ;
 
@@ -49,6 +53,22 @@ PLUS
 
 MINUS
     : '-'
+    ;
+
+MOD
+    : '⊞'
+    ;
+
+DOUBLE_PLUS
+    : '⊠'
+    ;
+
+AVG
+    : '≈'
+    ;
+
+NEG
+    : '±'
     ;
 
 INT

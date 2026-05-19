@@ -1,4 +1,5 @@
 import ast
+import math
 
 from antlr.RaraLangListener import RaraLangListener
 from antlr.RaraLangParser import RaraLangParser
@@ -181,6 +182,51 @@ class MIPSListener(RaraLangListener):
             raise RuntimeError("No hay registros temporales disponibles")
 
         return self.free_registers.pop(0)
+
+    def exitNegExpr(self, ctx):
+        reg = self.expr_stack[-1]
+        self.text.append(f"    neg {reg}, {reg}")
+        v = self.value_stack[-1]
+        self.value_stack[-1] = None if v is None else -v
+
+    def exitModExpr(self, ctx):
+        right = self.expr_stack.pop()
+        left = self.expr_stack.pop()
+        rv = self.value_stack.pop()
+        lv = self.value_stack.pop()
+        self.text.extend([
+            f"    div {left}, {right}",
+            f"    mfhi {left}",
+        ])
+        self._free_register(right)
+        self.expr_stack.append(left)
+        self.value_stack.append(None if lv is None or rv is None else lv % rv)
+
+    def exitDoublePlusExpr(self, ctx):
+        right = self.expr_stack.pop()
+        left = self.expr_stack.pop()
+        rv = self.value_stack.pop()
+        lv = self.value_stack.pop()
+        self.text.extend([
+            f"    sll {left}, {left}, 1",
+            f"    add {left}, {left}, {right}",
+        ])
+        self._free_register(right)
+        self.expr_stack.append(left)
+        self.value_stack.append(None if lv is None or rv is None else 2 * lv + rv)
+
+    def exitAvgExpr(self, ctx):
+        right = self.expr_stack.pop()
+        left = self.expr_stack.pop()
+        rv = self.value_stack.pop()
+        lv = self.value_stack.pop()
+        self.text.extend([
+            f"    add {left}, {left}, {right}",
+            f"    sra {left}, {left}, 1",
+        ])
+        self._free_register(right)
+        self.expr_stack.append(left)
+        self.value_stack.append(None if lv is None or rv is None else math.floor((lv + rv) / 2))
 
     def _free_register(self, reg):
         if reg not in self.free_registers:
