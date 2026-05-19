@@ -1,6 +1,6 @@
-# Generated from RaraLang.g4 by ANTLR 4.13.2
+# Generated from RaraLang.g4 by ANTLR 4.12.0
 from antlr4 import *
-if "." in __name__:
+if __name__ is not None and "." in __name__:
     from .RaraLangParser import RaraLangParser
 else:
     from RaraLangParser import RaraLangParser
@@ -80,12 +80,48 @@ class RaraLangListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by RaraLangParser#NegExpr.
+    def enterNegExpr(self, ctx:RaraLangParser.NegExprContext):
+        pass
+
+    # Exit a parse tree produced by RaraLangParser#NegExpr.
+    def exitNegExpr(self, ctx:RaraLangParser.NegExprContext):
+        pass
+
+
+    # Enter a parse tree produced by RaraLangParser#AvgExpr.
+    def enterAvgExpr(self, ctx:RaraLangParser.AvgExprContext):
+        pass
+
+    # Exit a parse tree produced by RaraLangParser#AvgExpr.
+    def exitAvgExpr(self, ctx:RaraLangParser.AvgExprContext):
+        pass
+
+
+    # Enter a parse tree produced by RaraLangParser#ModExpr.
+    def enterModExpr(self, ctx:RaraLangParser.ModExprContext):
+        pass
+
+    # Exit a parse tree produced by RaraLangParser#ModExpr.
+    def exitModExpr(self, ctx:RaraLangParser.ModExprContext):
+        pass
+
+
     # Enter a parse tree produced by RaraLangParser#ParenExpr.
     def enterParenExpr(self, ctx:RaraLangParser.ParenExprContext):
         pass
 
     # Exit a parse tree produced by RaraLangParser#ParenExpr.
     def exitParenExpr(self, ctx:RaraLangParser.ParenExprContext):
+        pass
+
+
+    # Enter a parse tree produced by RaraLangParser#DoublePlusExpr.
+    def enterDoublePlusExpr(self, ctx:RaraLangParser.DoublePlusExprContext):
+        pass
+
+    # Exit a parse tree produced by RaraLangParser#DoublePlusExpr.
+    def exitDoublePlusExpr(self, ctx:RaraLangParser.DoublePlusExprContext):
         pass
 
 

@@ -1,0 +1,5 @@
+# Iteración 4: Módulo (⊞)
+# 10 ⊞ 3 = 1 (residuo de 10/3)
+print 10 ⊞ 3
+# 20 ⊞ 6 = 2 (residuo de 20/6)
+print 20 ⊞ 6

@@ -78,12 +78,18 @@ Tu suite debe cubrir:
 
 **`a ≈ b` con `a = -3` y `b = -1`: ¿qué resultado da tu compilador? ¿Es el esperado si "piso" significa redondear hacia menos infinito?**
 
-> _
+> Da `-2`, que es correcto. Floor((-3 + -1) / 2) = floor(-4 / 2) = floor(-2) = -2. El compilador usa `sra` (shift right arithmetic), que realiza la división redondeando hacia menos infinito, lo que es exactamente lo que se necesita para "piso".
 
 **La especificación de `⊠` dice `2a + b`, no `a × b`. ¿En qué caso daría el mismo resultado que la multiplicación? ¿En cuáles no?**
 
-> _
+> Ambos dan el mismo resultado solo cuando `a = b`. Por ejemplo: `3 ⊠ 3 = 2*3 + 3 = 9 = 3 × 3`. En todos los otros casos son distintos. Por ejemplo: `4 ⊠ 5 = 2*4 + 5 = 13`, pero `4 × 5 = 20`. `⊠` es una operación deliberadamente no estándar.
 
 **`± ±5` debería dar 5. ¿Lo da? ¿Cómo implementó el modelo la doble negación?**
 
-> _
+> Sí, da 5. El compilador genera dos instrucciones `neg` consecutivas: primero `neg $t0, $t0` para negar 5 a -5, luego otro `neg $t0, $t0` para negar -5 a 5. La doble negación se cancela.
+
+---
+
+**Herramientas utilizadas:**
+- Claude Code (IDE CLI de Anthropic)
+- Modelo: Claude Haiku 4.5 (claude-haiku-4-5-20251001)

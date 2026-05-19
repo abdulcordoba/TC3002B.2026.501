@@ -1,6 +1,6 @@
-# Generated from RaraLang.g4 by ANTLR 4.13.2
+# Generated from RaraLang.g4 by ANTLR 4.12.0
 from antlr4 import *
-if "." in __name__:
+if __name__ is not None and "." in __name__:
     from .RaraLangParser import RaraLangParser
 else:
     from RaraLangParser import RaraLangParser
@@ -49,8 +49,28 @@ class RaraLangVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by RaraLangParser#NegExpr.
+    def visitNegExpr(self, ctx:RaraLangParser.NegExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RaraLangParser#AvgExpr.
+    def visitAvgExpr(self, ctx:RaraLangParser.AvgExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RaraLangParser#ModExpr.
+    def visitModExpr(self, ctx:RaraLangParser.ModExprContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by RaraLangParser#ParenExpr.
     def visitParenExpr(self, ctx:RaraLangParser.ParenExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RaraLangParser#DoublePlusExpr.
+    def visitDoublePlusExpr(self, ctx:RaraLangParser.DoublePlusExprContext):
         return self.visitChildren(ctx)
 
 

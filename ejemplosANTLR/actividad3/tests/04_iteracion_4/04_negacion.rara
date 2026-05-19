@@ -1,0 +1,5 @@
+# Iteración 4: Negación unaria (±)
+# ±8 = -8
+print ±8
+# ± ±5 = 5 (doble negación)
+print ± ±5
