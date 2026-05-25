@@ -1,0 +1,6 @@
+# Varios print seguidos, cada uno en su propia linea
+print 5
+print 1000
+print [FF:16]
+print [1010:2]
+print "hola mundo"

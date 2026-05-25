@@ -1,0 +1,3 @@
+# Iteración 4: Mezcla de operadores para observar precedencia
+# 2 + 3 ⊠ 4 con precedencia (⊠ > +) debería dar: 2 + (3 ⊠ 4) = 2 + (6+4) = 2 + 10 = 12
+print 2 + 3 ⊠ 4
