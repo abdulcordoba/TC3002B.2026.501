@@ -43,4 +43,8 @@ Las funciones no tienen parametros ni variables locales. Las variables siguen si
 globales. Esta decision mantiene el alcance de la iteracion enfocado en llamadas,
 `return`, `$v0` y preservacion de `$ra`.
 
-*Revisado por Abdul. Correcciones: se agrego preservacion de `$ra` y de temporales vivos para llamadas anidadas.*
+*Revisado por Marcela y Mariana. Correcciones: se agrego preservacion de `$ra` y de temporales vivos para llamadas anidadas.*
+
+> Auditoria detallada (incluyendo el bug de `$ra` y la explicacion linea por linea
+> del `.asm` de `07_03_funcion_en_expresion`): ver `doc/reporte-iteraciones.md`
+> (seccion "Iteracion 7 - Funciones" y "Explicacion del MIPS generado").

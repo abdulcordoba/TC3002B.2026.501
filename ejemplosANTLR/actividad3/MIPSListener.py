@@ -421,5 +421,3 @@ class MIPSGenerator(RaraLangVisitor):
         raise CompileError(f"Operador de comparacion desconocido: {op}")
 
 
-class MIPSListener(MIPSGenerator):
-    pass

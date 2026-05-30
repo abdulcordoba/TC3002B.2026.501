@@ -75,3 +75,6 @@ sin haberla asignado. ¿Qué hace tu compilador? ¿Debería ser un error?
 **Herramientas utilizadas:**
 - Claude Code (IDE CLI de Anthropic)
 - Modelo: Claude Haiku 4.5 (claude-haiku-4-5-20251001)
+
+> Auditoria, correcciones aplicadas y firma consolidada de esta iteracion: ver
+> `doc/reporte-iteraciones.md` (seccion "Iteracion 2 - Variables").

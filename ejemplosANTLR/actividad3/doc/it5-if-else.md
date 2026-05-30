@@ -50,4 +50,7 @@ como falso. Esa regla es compatible con MIPS porque los saltos pueden comparar c
 No hay operadores booleanos `and`/`or`. Si se necesitan condiciones compuestas, se
 pueden expresar con variables temporales o con comparaciones separadas.
 
-*Revisado por Abdul. Correcciones: se agregaron bloques explicitos y comparaciones para evitar una sintaxis ambigua.*
+*Revisado por Marcela y Mariana. Correcciones: se agregaron bloques explicitos y comparaciones para evitar una sintaxis ambigua.*
+
+> Auditoria detallada (incluyendo el bug de `<=`/`>=`) y firma consolidada: ver
+> `doc/reporte-iteraciones.md` (seccion "Iteracion 5 - If/else").

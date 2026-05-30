@@ -1,95 +1,130 @@
-nmms# RaraLang Compiler
+# RaraLang Compiler
 
 **Integrantes**
 
 - Marcela Hernandez Ramirez - A01658023
 - Mariana Fernandez De la Torre - A01657317
 
-## Descripcion
+## De que va esto
 
-Este proyecto es un compilador para **RaraLang**, un lenguaje inventado para la clase
-de compiladores. El objetivo fue construir el compilador por iteraciones usando un
-agente de IA como apoyo, pero auditando el codigo generado y verificando que el MIPS
-funcionara correctamente.
+RaraLang es el lenguaje "raro" que armamos para la clase de compiladores. Tiene
+sintaxis sencilla pero con operadores Unicode poco comunes (`×`, `÷`, `⊞`, `⊠`,
+`≈`, `±`) y literales en bases no convencionales del estilo `[FF:16]`. La
+gracia de la rareza es que el modelo de IA no tiene ejemplos previos del
+lenguaje, asi que tiene que razonar desde la guia y a veces se equivoca, que
+es justo lo que queriamos auditar.
 
-RaraLang tiene una sintaxis sencilla, pero usa operadores Unicode no comunes como
-`×`, `÷`, `⊞`, `⊠`, `≈` y `±`. Esto nos obligo a revisar bien la gramatica, la
-precedencia de operadores y el codigo MIPS generado.
+Este compilador toma archivos `.rara`, los pasa por un parser de ANTLR4 y
+genera codigo MIPS (`.asm`) que se puede correr en SPIM o QtSPIM.
 
-## Estructura principal
+**Modelo que usamos:** Codex con GPT-5.5 en su configuracion default. En el
+reporte de iteraciones documentamos donde nos sirvio y donde tuvimos que
+corregirle a mano.
 
-El entregable principal esta en:
+## Donde esta lo importante
 
-```text
-ejemplosANTLR/actividad3/
+El entregable principal vive en `ejemplosANTLR/actividad3/`. Los archivos
+relevantes son:
+
+- `RaraLang.g4` - la gramatica del lenguaje.
+- `MIPSListener.py` - el compilador (genera el MIPS).
+- `main.py` - el comando para compilar un `.rara` y dejar el `.asm` al lado.
+- `tests/` - una carpeta por iteracion con los archivos de prueba.
+- `doc/reporte-iteraciones.md` - el reporte con auditoria y reflexion.
+- `doc/verificacion-spim.md` - el log de las corridas en SPIM.
+
+## Iteraciones que terminamos
+
+| # | Tema                                            | Tests                              | Guia                            |
+|---|-------------------------------------------------|------------------------------------|---------------------------------|
+| 1 | Literales, bases raras, strings, `print`        | `tests/01_iteracion_1/` (6 `.rara`) | `doc/it1-literales-print.md`    |
+| 2 | Variables y asignacion con `<--`                | `tests/02_iteracion_2/` (4 `.rara`) | `doc/it2-variables.md`          |
+| 3 | Aritmetica `+`, `-`, `×`, `÷` y parentesis      | `tests/03_iteracion_3/` (3 `.rara`) | `doc/it3-aritmetica.md`         |
+| 4 | Operadores Unicode `⊞`, `⊠`, `≈`, `±`            | `tests/04_iteracion_4/` (5 `.rara`) | `doc/it4-unicode-ops.md`        |
+| 5 | Condicionales `if/else` y comparaciones         | `tests/05_iteracion_5/` (3 `.rara`) | `doc/it5-if-else.md`            |
+| 6 | Ciclos `while` y bloques                        | `tests/06_iteracion_6/` (3 `.rara`) | `doc/it6-while-bloques.md`      |
+| 7 | Funciones sin parametros y `return`             | `tests/07_iteracion_7/` (3 `.rara`) | `doc/it7-funciones.md`          |
+| 8 | Manejo de errores                               | `tests/08_iteracion_8/` (4 `.rara`) | `doc/it8-error-handling.md`     |
+
+Todas las iteraciones quedaron compilando y todas las pruebas que deben pasar
+corren en SPIM con el resultado esperado.
+
+## Como correrlo
+
+Necesitas:
+
+- Python 3.10+
+- `antlr4-python3-runtime` (esta en `ejemplosANTLR/actividad3/requirements.txt`)
+- `spim` o `QtSPIM` para ejecutar el MIPS
+
+```bash
+pip install -r ejemplosANTLR/actividad3/requirements.txt
 ```
 
-Archivos importantes:
-
-- `RaraLang.g4`: gramatica del lenguaje.
-- `MIPSListener.py`: compilador/generador de codigo MIPS.
-- `main.py`: programa para compilar archivos `.rara` a `.asm`.
-- `tests/`: pruebas por iteracion.
-- `doc/reporte-iteraciones.md`: reporte con auditoria y reflexion por iteracion.
-- `doc/verificacion-spim.md`: evidencia de ejecucion de los `.asm` con SPIM.
-
-## Iteraciones completadas
-
-Se completaron las siguientes iteraciones:
-
-1. Literales, numeros en otras bases, strings y `print`.
-2. Variables y asignacion con `<--`.
-3. Aritmetica basica con `+`, `-`, `×`, `÷` y parentesis.
-4. Operadores Unicode `⊞`, `⊠`, `≈` y `±`.
-5. Condicionales `if/else` y comparaciones.
-6. Ciclos `while` y bloques.
-7. Funciones sin parametros y `return`.
-8. Manejo de errores.
-
-## Como correr el compilador
-
-Desde la carpeta del proyecto:
+Para compilar un archivo:
 
 ```bash
 cd ejemplosANTLR/actividad3
 python3 main.py tests/01_iteracion_1/01_01_int_literal.rara
 ```
 
-Esto genera un archivo `.asm` junto al `.rara` y tambien imprime el MIPS en la
+Eso te deja el `.asm` al lado del `.rara` y tambien te imprime el MIPS en la
 terminal.
+
+Para compilar TODA la suite de un jalon:
+
+```bash
+cd ejemplosANTLR/actividad3
+for f in tests/*/*.rara; do
+    echo "===== $f"
+    python3 main.py "$f"
+done
+```
 
 ## Como correr el MIPS
 
-Se uso `spim` para verificar los archivos `.asm`:
+Uno por uno:
 
 ```bash
 spim -file tests/01_iteracion_1/01_01_int_literal.asm
 ```
 
-Tambien se puede correr con QtSPIM abriendo el archivo `.asm` generado.
+O la suite completa con el mismo formato que aparece en `doc/verificacion-spim.md`:
 
-## Pruebas
-
-Cada carpeta dentro de `tests/` corresponde a una iteracion. Hay al menos tres
-archivos `.rara` por iteracion completada, y archivos `.asm` generados para las
-pruebas que compilan correctamente.
-
-Ejemplo:
-
-```text
-tests/03_iteracion_3/
-tests/04_iteracion_4/
-tests/05_iteracion_5/
+```bash
+cd ejemplosANTLR/actividad3
+for f in tests/*/*.asm; do
+    echo "--- $f"
+    spim -file "$f" 2>&1 | sed '/^Loaded:/d'
+done
 ```
 
-Algunas pruebas de la iteracion 8 estan hechas para fallar a proposito, porque
-verifican que el compilador detecte errores como variables no asignadas, funciones
-no definidas o bases invalidas.
+Cualquier `.asm` tambien se puede abrir directo en QtSPIM si prefieres la
+interfaz grafica.
+
+## Sobre las pruebas
+
+Cada carpeta dentro de `tests/` es una iteracion. Hay minimo 3 archivos `.rara`
+por iteracion y al menos un `.asm` generado.
+
+**Ojo:** algunas pruebas estan hechas para FALLAR a proposito. Son cuatro
+casos trampa que verifican que el compilador detecta errores:
+
+- `tests/03_iteracion_3/03_02_division_cero.rara` - division entre cero
+  constante.
+- `tests/08_iteracion_8/08_02_funcion_no_definida.rara` - llama a una funcion
+  que no existe.
+- `tests/08_iteracion_8/08_03_variable_no_asignada.rara` - lee una variable
+  antes de asignarla.
+- `tests/08_iteracion_8/08_04_base_invalida.rara` - usa base 3 (no soportada).
+
+Estos casos no producen `.asm`. La salida esperada del compilador para cada
+uno esta en `doc/verificacion-spim.md`.
 
 ## Verificacion
 
-Se ejecuto la suite de archivos `.asm` con `spim` 9.1.24. Las salidas observadas
-coinciden con los resultados esperados documentados en:
+Corrimos la suite con `spim` 9.1.24 el 2026-05-30 en macOS (Darwin 25.0.0).
+Todas las salidas coinciden con lo que documentamos en:
 
 ```text
 ejemplosANTLR/actividad3/doc/verificacion-spim.md

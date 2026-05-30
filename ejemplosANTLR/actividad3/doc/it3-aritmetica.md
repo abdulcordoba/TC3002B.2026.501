@@ -95,3 +95,6 @@ Para esta iteración se usó Codex con el modelo GPT-5.5 en su configuración de
 > valores temporalmente en una pila. El último valor que entra es el primero que
 > sale, entonces hay que tener cuidado para no invertir los operandos. Si la
 > expresión dice `x - y`, el compilador debe respetar ese orden.
+
+> Auditoria, correcciones aplicadas y firma consolidada de esta iteracion: ver
+> `doc/reporte-iteraciones.md` (seccion "Iteracion 3 - Aritmetica").

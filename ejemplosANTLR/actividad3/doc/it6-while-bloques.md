@@ -40,4 +40,7 @@ evaluacion despues del cuerpo. Se audito revisando el ASM de
 No existen `break` ni `continue`. Los ciclos deben terminar modificando variables
 usadas en la condicion.
 
-*Revisado por Abdul. Correcciones: se agrego una prueba donde el while no debe entrar al cuerpo.*
+*Revisado por Marcela y Mariana. Correcciones: se agrego una prueba donde el while no debe entrar al cuerpo.*
+
+> Auditoria detallada (incluyendo el bug del do-while) y firma consolidada: ver
+> `doc/reporte-iteraciones.md` (seccion "Iteracion 6 - While/bloques").

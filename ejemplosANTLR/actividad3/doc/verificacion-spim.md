@@ -1,17 +1,31 @@
 # Verificacion con SPIM
 
-Comando usado:
+**Fecha de ejecucion:** 2026-05-30.
+**Sistema:** macOS (Darwin 25.0.0).
+**Simulador:** `spim` 9.1.24 instalado por Homebrew.
+**Python:** 3.x con `antlr4-python3-runtime`.
+
+## Comando para compilar todos los `.rara`
 
 ```bash
+cd ejemplosANTLR/actividad3
+for f in tests/*/*.rara; do
+    echo "===== $f"
+    python3 main.py "$f"
+done
+```
+
+## Comando para ejecutar todos los `.asm` en SPIM
+
+```bash
+cd ejemplosANTLR/actividad3
 for f in tests/*/*.asm; do
     echo "--- $f"
     spim -file "$f" 2>&1 | sed '/^Loaded:/d'
 done
 ```
 
-Version instalada por Homebrew: `spim` 9.1.24.
-
-## Salidas observadas
+## Salidas observadas en SPIM
 
 ```text
 --- tests/01_iteracion_1/01_01_int_literal.asm
@@ -100,4 +114,32 @@ hola mundo
 22
 --- tests/08_iteracion_8/08_01_guard_division_runtime.asm
 ERROR: division entre cero
+```
+
+## Errores de compilacion esperados (iteraciones 3 y 8)
+
+Estos archivos NO generan `.asm` porque su proposito es validar que el compilador
+detecta el error y se detiene. Salida observada en `stderr`:
+
+```text
+--- tests/03_iteracion_3/03_02_division_cero.rara
+ERROR: Division entre cero en una expresion constante
+--- tests/08_iteracion_8/08_02_funcion_no_definida.rara
+ERROR: Funcion no definida: fantasma
+--- tests/08_iteracion_8/08_03_variable_no_asignada.rara
+ERROR: Variable no asignada: x
+--- tests/08_iteracion_8/08_04_base_invalida.rara
+ERROR: Base no soportada: 3
+```
+
+Comando usado para verificar los errores:
+
+```bash
+for f in tests/03_iteracion_3/03_02_division_cero.rara \
+         tests/08_iteracion_8/08_02_funcion_no_definida.rara \
+         tests/08_iteracion_8/08_03_variable_no_asignada.rara \
+         tests/08_iteracion_8/08_04_base_invalida.rara; do
+    echo "--- $f"
+    python3 main.py "$f" 2>&1 >/dev/null
+done
 ```

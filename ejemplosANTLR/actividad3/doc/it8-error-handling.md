@@ -45,4 +45,8 @@ No hay recuperacion de errores para continuar compilando despues del primer erro
 El compilador detiene la compilacion en el primer problema encontrado, lo cual es
 suficiente para una herramienta pequena y evita generar MIPS inconsistente.
 
-*Revisado por Abdul. Correcciones: se cambiaron fallos silenciosos por errores explicitos y guardias de runtime.*
+*Revisado por Marcela y Mariana. Correcciones: se cambiaron fallos silenciosos por errores explicitos y guardias de runtime.*
+
+> Auditoria detallada (incluyendo el bug del cero silencioso en variables no
+> asignadas) y firma consolidada: ver `doc/reporte-iteraciones.md` (seccion
+> "Iteracion 8 - Error handling").

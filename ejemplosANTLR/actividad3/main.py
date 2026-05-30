@@ -1,6 +1,6 @@
 """
 Uso:
-    python main.py tests/07_if_then.rara        # un archivo
+    python main.py tests/01_iteracion_1/01_01_int_literal.rara
 """
 
 import sys
