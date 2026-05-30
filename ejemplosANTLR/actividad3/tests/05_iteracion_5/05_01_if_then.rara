@@ -1,0 +1,7 @@
+# Iteracion 5: if sin else con condicion verdadera
+# Esperado: 10, 99
+x <-- 1
+if x {
+    print 10
+}
+print 99

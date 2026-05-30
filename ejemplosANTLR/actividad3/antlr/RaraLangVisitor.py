@@ -1,6 +1,6 @@
-# Generated from RaraLang.g4 by ANTLR 4.12.0
+# Generated from RaraLang.g4 by ANTLR 4.13.2
 from antlr4 import *
-if __name__ is not None and "." in __name__:
+if "." in __name__:
     from .RaraLangParser import RaraLangParser
 else:
     from RaraLangParser import RaraLangParser
@@ -14,6 +14,11 @@ class RaraLangVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by RaraLangParser#item.
+    def visitItem(self, ctx:RaraLangParser.ItemContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by RaraLangParser#AssignStat.
     def visitAssignStat(self, ctx:RaraLangParser.AssignStatContext):
         return self.visitChildren(ctx)
@@ -21,6 +26,31 @@ class RaraLangVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by RaraLangParser#PrintStat.
     def visitPrintStat(self, ctx:RaraLangParser.PrintStatContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RaraLangParser#IfStat.
+    def visitIfStat(self, ctx:RaraLangParser.IfStatContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RaraLangParser#WhileStat.
+    def visitWhileStat(self, ctx:RaraLangParser.WhileStatContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RaraLangParser#ReturnStat.
+    def visitReturnStat(self, ctx:RaraLangParser.ReturnStatContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RaraLangParser#funcDef.
+    def visitFuncDef(self, ctx:RaraLangParser.FuncDefContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RaraLangParser#block.
+    def visitBlock(self, ctx:RaraLangParser.BlockContext):
         return self.visitChildren(ctx)
 
 
@@ -39,6 +69,11 @@ class RaraLangVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by RaraLangParser#CompareExpr.
+    def visitCompareExpr(self, ctx:RaraLangParser.CompareExprContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by RaraLangParser#LiteralExpr.
     def visitLiteralExpr(self, ctx:RaraLangParser.LiteralExprContext):
         return self.visitChildren(ctx)
@@ -51,6 +86,11 @@ class RaraLangVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by RaraLangParser#NegExpr.
     def visitNegExpr(self, ctx:RaraLangParser.NegExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RaraLangParser#CallExpr.
+    def visitCallExpr(self, ctx:RaraLangParser.CallExprContext):
         return self.visitChildren(ctx)
 
 

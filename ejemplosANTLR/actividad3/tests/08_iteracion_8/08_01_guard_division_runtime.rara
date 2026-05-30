@@ -1,0 +1,4 @@
+# Iteracion 8: division entre cero detectada en runtime
+# Esperado en QtSPIM: ERROR: division entre cero
+x <-- 0
+print 10 ÷ x

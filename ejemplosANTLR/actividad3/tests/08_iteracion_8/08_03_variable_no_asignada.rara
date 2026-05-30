@@ -1,0 +1,2 @@
+# Iteracion 8: debe fallar al compilar con "Variable no asignada: x"
+print x

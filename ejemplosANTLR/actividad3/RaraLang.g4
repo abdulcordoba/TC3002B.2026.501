@@ -1,12 +1,28 @@
 grammar RaraLang;
 
 prog
-    : stat* EOF
+    : item* EOF
+    ;
+
+item
+    : funcDef
+    | stat
     ;
 
 stat
     : ID ASSIGN expr       # AssignStat
     | PRINT printArg       # PrintStat
+    | IF expr block (ELSE block)? # IfStat
+    | WHILE expr block     # WhileStat
+    | RETURN expr          # ReturnStat
+    ;
+
+funcDef
+    : FUNC ID '(' ')' block
+    ;
+
+block
+    : '{' stat* '}'
     ;
 
 printArg
@@ -17,6 +33,7 @@ printArg
 expr
     : '(' expr ')'         # ParenExpr
     | literal              # LiteralExpr
+    | ID '(' ')'           # CallExpr
     | ID                   # VarExpr
     | NEG expr             # NegExpr
     | expr (MUL | DIV) expr # MulDivExpr
@@ -24,6 +41,7 @@ expr
     | expr MOD expr        # ModExpr
     | expr AVG expr        # AvgExpr
     | expr (PLUS | MINUS) expr # AddSubExpr
+    | expr (EQ | NE | LE | GE | LT | GT) expr # CompareExpr
     ;
 
 literal
@@ -37,6 +55,26 @@ ASSIGN
 
 PRINT
     : 'print'
+    ;
+
+IF
+    : 'if'
+    ;
+
+ELSE
+    : 'else'
+    ;
+
+WHILE
+    : 'while'
+    ;
+
+FUNC
+    : 'func'
+    ;
+
+RETURN
+    : 'return'
     ;
 
 MUL
@@ -69,6 +107,30 @@ AVG
 
 NEG
     : '±'
+    ;
+
+EQ
+    : '=='
+    ;
+
+NE
+    : '!='
+    ;
+
+LE
+    : '<='
+    ;
+
+GE
+    : '>='
+    ;
+
+LT
+    : '<'
+    ;
+
+GT
+    : '>'
     ;
 
 INT

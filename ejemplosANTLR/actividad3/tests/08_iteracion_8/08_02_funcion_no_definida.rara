@@ -1,0 +1,2 @@
+# Iteracion 8: debe fallar al compilar con "Funcion no definida: fantasma"
+print fantasma()

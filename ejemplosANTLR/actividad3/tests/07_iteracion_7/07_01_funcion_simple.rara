@@ -1,0 +1,7 @@
+# Iteracion 7: funcion simple sin parametros
+# Esperado: 42
+print respuesta()
+
+func respuesta() {
+    return 42
+}

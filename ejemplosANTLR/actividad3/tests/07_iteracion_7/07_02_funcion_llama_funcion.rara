@@ -1,0 +1,11 @@
+# Iteracion 7: una funcion llama a otra y conserva $ra
+# Esperado: 15
+print doble_mas_cinco()
+
+func cinco() {
+    return 5
+}
+
+func doble_mas_cinco() {
+    return cinco() ⊠ cinco()
+}

@@ -1,0 +1,2 @@
+# Iteracion 8: debe fallar al compilar porque base 3 no esta soportada
+print [12:3]

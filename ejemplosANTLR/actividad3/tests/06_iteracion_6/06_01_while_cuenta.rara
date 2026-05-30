@@ -1,0 +1,7 @@
+# Iteracion 6: while con cuenta regresiva
+# Esperado: 3, 2, 1
+i <-- 3
+while i {
+    print i
+    i <-- i - 1
+}

@@ -1,0 +1,9 @@
+# Iteracion 3: parentesis, precedencia y variables reasignadas
+# Esperado: 35, 3, 8
+a <-- 6
+b <-- 4
+c <-- 2
+print (a + b) × (c + 1) + 5
+print a ÷ c
+a <-- a + c
+print a

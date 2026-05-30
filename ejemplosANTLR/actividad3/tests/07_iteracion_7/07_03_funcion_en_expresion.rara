@@ -1,0 +1,12 @@
+# Iteracion 7: llamada dentro de expresion con registros vivos
+# Esperado: 22
+x <-- 10
+print x + siete() + cinco()
+
+func siete() {
+    return 7
+}
+
+func cinco() {
+    return 5
+}

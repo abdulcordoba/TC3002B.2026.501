@@ -1,0 +1,8 @@
+# Iteracion 5: if/else con condicion falsa
+# Esperado: 22
+x <-- 0
+if x {
+    print 11
+} else {
+    print 22
+}

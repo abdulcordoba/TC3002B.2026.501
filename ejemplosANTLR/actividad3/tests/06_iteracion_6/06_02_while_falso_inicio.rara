@@ -1,0 +1,7 @@
+# Iteracion 6: condicion falsa desde el inicio
+# Esperado: 7
+i <-- 0
+while i {
+    print 999
+}
+print 7
