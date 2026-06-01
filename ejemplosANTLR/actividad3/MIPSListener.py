@@ -4,6 +4,7 @@ Iteración 1: Literales enteros, números en otras bases, strings, y print.
 """
 
 from antlr4 import *
+
 # pyrefly: ignore [missing-import]
 from antlr.RaraLangListener import RaraLangListener
 
@@ -21,11 +22,11 @@ class MIPSListener(RaraLangListener):
     """
 
     def __init__(self):
-        self._data_lines: list[str] = []   # líneas para la sección .data
-        self._text_lines: list[str] = []   # instrucciones MIPS
+        self._data_lines: list[str] = []  # líneas para la sección .data
+        self._text_lines: list[str] = []  # instrucciones MIPS
         self._val_stack: list[tuple] = []  # pila de descriptores de valor
-        self._reg_idx: int = 0             # índice de registro temporal
-        self._str_idx: int = 0             # índice de etiqueta de string
+        self._reg_idx: int = 0  # índice de registro temporal
+        self._str_idx: int = 0  # índice de etiqueta de string
         self._variables: set[str] = set()  # nombres de variables usadas
         self._var_types: dict[str, str] = {}  # tipos de variables (int, str)
 
@@ -49,10 +50,10 @@ class MIPSListener(RaraLangListener):
         """Emite syscalls para imprimir un entero y luego un salto de línea."""
         self._emit(
             f"move $a0, {reg}",
-            "li   $v0, 1",          # syscall 1 = print_int
+            "li   $v0, 1",  # syscall 1 = print_int
             "syscall",
-            "li   $a0, 10",         # ASCII '\n'
-            "li   $v0, 11",         # syscall 11 = print_char
+            "li   $a0, 10",  # ASCII '\n'
+            "li   $v0, 11",  # syscall 11 = print_char
             "syscall",
         )
 
@@ -60,9 +61,9 @@ class MIPSListener(RaraLangListener):
         """Emite syscalls para imprimir una cadena y luego un salto de línea."""
         self._emit(
             f"la   $a0, {label}",
-            "li   $v0, 4",          # syscall 4 = print_string
+            "li   $v0, 4",  # syscall 4 = print_string
             "syscall",
-            "li   $a0, 10",         # ASCII '\n'
+            "li   $a0, 10",  # ASCII '\n'
             "li   $v0, 11",
             "syscall",
         )
@@ -71,9 +72,9 @@ class MIPSListener(RaraLangListener):
         """Emite syscalls para imprimir una cadena referenciada por dirección en un registro y luego un salto de línea."""
         self._emit(
             f"move $a0, {reg}",
-            "li   $v0, 4",          # syscall 4 = print_string
+            "li   $v0, 4",  # syscall 4 = print_string
             "syscall",
-            "li   $a0, 10",         # ASCII '\n'
+            "li   $a0, 10",  # ASCII '\n'
             "li   $v0, 11",
             "syscall",
         )
@@ -96,7 +97,7 @@ class MIPSListener(RaraLangListener):
         generado solo ve el valor decimal — es equivalente a un INT literal.
         """
         raw = ctx.BASED_NUMBER().getText()  # ej: "[FF:16]"
-        inner = raw[1:-1]                   # "FF:16"
+        inner = raw[1:-1]  # "FF:16"
         digits, base_str = inner.rsplit(":", 1)
         base = int(base_str)
         value = int(digits, base)
@@ -111,11 +112,11 @@ class MIPSListener(RaraLangListener):
         La cadena se declara en .data como .asciiz (terminada en null).
         En .text solo se emite la dirección (la); el print lo hace exitPrintStmt.
         """
-        raw = ctx.STRING().getText()        # incluye comillas
-        content = raw[1:-1]                 # sin comillas
+        raw = ctx.STRING().getText()  # incluye comillas
+        content = raw[1:-1]  # sin comillas
         label = f"str_{self._str_idx}"
         self._str_idx += 1
-        self._data_lines.append(f"    {label}: .asciiz \"{content}\"")
+        self._data_lines.append(f'    {label}: .asciiz "{content}"')
         self._val_stack.append(("str", label))
 
     # ─── Sentencias ──────────────────────────────────────────────────────────
@@ -174,6 +175,48 @@ class MIPSListener(RaraLangListener):
         else:
             self._val_stack.append(("int", reg))
 
+    def exitParens(self, ctx) -> None:
+        """Paréntesis. No hace nada porque el valor ya está en el tope de la pila."""
+        pass
+
+    def exitAdd(self, ctx) -> None:
+        """Suma: expr + expr"""
+        kind_r, reg_r = self._val_stack.pop()
+        kind_l, reg_l = self._val_stack.pop()
+        res_reg = self._alloc_reg()
+        self._emit_comment(f"add {reg_l} + {reg_r}")
+        self._emit(f"add  {res_reg}, {reg_l}, {reg_r}")
+        self._val_stack.append(("int", res_reg))
+
+    def exitSub(self, ctx) -> None:
+        """Resta: expr - expr"""
+        kind_r, reg_r = self._val_stack.pop()
+        kind_l, reg_l = self._val_stack.pop()
+        res_reg = self._alloc_reg()
+        self._emit_comment(f"sub {reg_l} - {reg_r}")
+        self._emit(f"sub  {res_reg}, {reg_l}, {reg_r}")
+        self._val_stack.append(("int", res_reg))
+
+    def exitMul(self, ctx) -> None:
+        """Multiplicación: expr x expr"""
+        kind_r, reg_r = self._val_stack.pop()
+        kind_l, reg_l = self._val_stack.pop()
+        res_reg = self._alloc_reg()
+        self._emit_comment(f"mult {reg_l} * {reg_r}")
+        self._emit(f"mult {reg_l}, {reg_r}")
+        self._emit(f"mflo {res_reg}")
+        self._val_stack.append(("int", res_reg))
+
+    def exitDiv(self, ctx) -> None:
+        """División entera: expr ÷ expr"""
+        kind_r, reg_r = self._val_stack.pop()
+        kind_l, reg_l = self._val_stack.pop()
+        res_reg = self._alloc_reg()
+        self._emit_comment(f"div {reg_l} / {reg_r}")
+        self._emit(f"div  {reg_l}, {reg_r}")
+        self._emit(f"mflo {res_reg}")
+        self._val_stack.append(("int", res_reg))
+
     # ─── Salida ──────────────────────────────────────────────────────────────
 
     def output(self) -> str:
@@ -199,7 +242,7 @@ class MIPSListener(RaraLangListener):
         lines.extend(self._text_lines)
 
         # Salida limpia del programa
-        lines.append("    li   $v0, 10")   # syscall 10 = exit
+        lines.append("    li   $v0, 10")  # syscall 10 = exit
         lines.append("    syscall")
 
         return "\n".join(lines) + "\n"
